@@ -5,20 +5,10 @@
       <hr>
 
       <footer>
-        <p>this is a thing by <a href="http://www.aaronstraupcope.com/" target="_asc">aaron straup cope</a> | <a href="{$cfg.abs_root_url}colophon/">colophon</a></p>
+        <p>this is a thing by <a href="http://www.mapzen.com/" target="_mapzen">mapzen</a> | <a href="{$cfg.abs_root_url}colophon/">colophon</a></p>
       </footer>
-
-{if 0}
-{if $cfg.auth_roles.staff}
-      	{timings}
-{/if}
-{/if}
 
     </div> <!-- /container -->
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{$cfg.abs_root_url}javascript/bootstrap.min.js"></script>
   </body>
 </html>

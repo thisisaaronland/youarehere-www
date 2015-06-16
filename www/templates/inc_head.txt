@@ -3,9 +3,16 @@
   <head>
     <meta charset="utf-8">
     <title>{$cfg.site_name|escape}{if $page_title} / {$page_title|escape}{/if}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
+
+    <meta name="description" content="you are here">
     <meta name="author" content="">
+
+    <meta name="referrer" content="origin">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
 
     <!-- Le styles -->
     <link href="{$cfg.abs_root_url}css/bootstrap.min.css" rel="stylesheet">
@@ -29,6 +36,7 @@
 
     <script src="{$cfg.abs_root_url}javascript/jquery-2.1.0.min.js"></script>
     <script src="{$cfg.abs_root_url}javascript/jquery.touchwipe.min.js"></script>
+    <script src="{$cfg.abs_root_url}javascript/bootstrap.min.js"></script>
     <script src="{$cfg.abs_root_url}javascript/leaflet.js"></script>
     {if $cfg.environment=='prod'}
     <script src="{$cfg.abs_root_url}javascript/youarehere.min.js"></script>
