@@ -18,4 +18,7 @@ sudo chmod -R g+ws ${ROOT}/www/templates_c
 {$ROOT}/ubuntu/setup-apache.sh
 {$ROOT}/ubuntu/setup-php.sh
 
+{$ROOT}/ubuntu/setup-secrets-base.sh
+{$ROOT}/ubuntu/setup-secrets-crypto.sh
+
 exit 0
