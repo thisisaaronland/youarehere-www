@@ -278,3 +278,7 @@ footer {
     line-height:1.4em;
     margin-bottom: .5em;
 }
+
+.hey-look {
+    font-weight: 700 !important;
+}

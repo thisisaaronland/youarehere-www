@@ -10,6 +10,7 @@
 	if (($q) && (preg_match("/^([\w\d\s]+)$/", $q, $m))){
 
 		$rsp = mapzen_pelias_geocode($m[1]);
+		# dumper($rsp['data']);
 
 		if ($rsp['ok']){
 			$data = $rsp['data'];
