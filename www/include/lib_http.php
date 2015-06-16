@@ -1,7 +1,4 @@
 <?
-	#
-	# $Id$
-	#
 
 	########################################################################
 
@@ -236,6 +233,14 @@
 			curl_setopt($ch, CURLOPT_MAXREDIRS, intval($more['follow_redirects']));
 		}
 
+		if ($more['user_agent']){
+			curl_setopt($ch, CURLOPT_USERAGENT, $more['user_agent']);
+		}
+
+		if ($more['ssl_ciphers']){
+			curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, $more['ssl_ciphers']);
+		}
+
 		return $ch;
 	}
 
@@ -247,6 +252,10 @@
 
 		$raw = curl_exec($ch);
 		$info = curl_getinfo($ch);
+
+		if ($err = curl_error($ch)){
+			$info['curl_error'] = $err;
+		}
 
 		$end = microtime_ms();
 
@@ -281,9 +290,15 @@
 
 		if (($status < 200) || ($status > 299)){
 
+			$error = "http_failed";
+			
+			if (isset($info['curl_error'])){
+				$error .= ": {$info['curl_error']}";
+			}
+
 			return array(
 				'ok'		=> 0,
-				'error'		=> 'http_failed',
+				'error'		=> $error,
 				'code'		=> $info['http_code'],
 				'method'	=> $method,
 				'url'		=> $info['url'],
@@ -296,10 +311,9 @@
 
 		return array(
 			'ok'		=> 1,
-			'code'		=> $info['http_code'],
-			'method'	=> $method,
 			'url'		=> $info['url'],
 			'info'		=> $info,
+			'method'	=> $method,
 			'req_headers'	=> $headers_out,
 			'headers'	=> $headers_in,
 			'body'		=> $body,
@@ -362,3 +376,4 @@
 	}
 
 	########################################################################
+?>

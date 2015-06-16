@@ -1,11 +1,5 @@
-<?
-	#
-	# $Id$
-	#
-
+<?php
 	include("include/init.php");
-
-	features_ensure_enabled("signin");
 
 	login_ensure_loggedin();
 
@@ -26,9 +20,13 @@
 
 		login_do_logout();
 
-		$GLOBALS['smarty']->display('page_signout_done.txt');
-		exit();
+		$smarty->display('page_signout_done.txt');
+		exit;
 	}
 
-	$GLOBALS['smarty']->assign('nav_tab', 'account');
-	$GLOBALS['smarty']->display("page_signout.txt");
+
+	#
+	# output
+	#
+
+	$smarty->display("page_signout.txt");
