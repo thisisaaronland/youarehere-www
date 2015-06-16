@@ -9,29 +9,51 @@ WHOAMI=`${PYTHON} -c 'import os, sys; print os.path.realpath(sys.argv[1])' $0`
 WHEREAMI=`dirname $WHOAMI`
 PROJECT=`dirname $WHEREAMI`
 
-SECRETS="${PROJECT}www/include/secrets.php"
+SECRETS="${PROJECT}/www/include/secrets.php"
 
 MYSQL=`which mysql`
 
 DBNAME='youarehere'
 USERNAME='youarehere'
-PASSWORD=`${PHP} ${ROOT}/bin/generate_secret.php`
+PASSWORD=`${PHP} ${PROJECT}/bin/generate_secret.php`
 
-echo "CREATE DATABASE ${DBNAME};" > /tmp/${DBNAME}.sql
-echo "CREATE user '${USERNAME}'@'localhost' IDENTIFIED BY '${PASSWORD}';" >> /tmp/${DBNAME}.sql
-echo "GRANT SELECT,UPDATE,DELETE,INSERT ON ${DBNAME}.* TO '${USERNAME}'@'localhost' IDENTIFIED BY '${PASSWORD}';" >> /tmp/${DBNAME}.sql
-echo "FLUSH PRIVILEGES;" >> /tmp/${DBNAME}.sql
+SETUP_FILE="/tmp/${DBNAME}.sql"
+TABLES_FILE="/tmp/${DBNAME}-tables.sql"
 
-echo "USE ${DBNAME};" >> /tmp/${DBNAME}.sql;
+if [ -f ${SETUP_FILE} ]
+then
+    rm ${SETUP_FILE}
+fi
 
-for f in `ls -a ${ROOT}/schema/*.schema`
+if [ -f ${TABLES_FILE} ]
+then
+    rm ${TABLES_FILE}
+fi
+
+    
+touch ${SETUP_FILE}
+touch ${TABLES_FILE}
+
+echo "DROP DATABASE IF EXISTS ${DBNAME};" >> ${SETUP_FILE}
+echo "CREATE DATABASE ${DBNAME};" >> ${SETUP_FILE}
+
+echo "DROP user '${USERNAME}'@'localhost';" >> ${SETUP_FILE}
+echo "CREATE user '${USERNAME}'@'localhost' IDENTIFIED BY '${PASSWORD}';" >> ${SETUP_FILE}
+
+echo "GRANT SELECT,UPDATE,DELETE,INSERT ON ${DBNAME}.* TO '${USERNAME}'@'localhost' IDENTIFIED BY '${PASSWORD}';" >> ${SETUP_FILE}
+echo "FLUSH PRIVILEGES;" >> ${SETUP_FILE}
+
+for f in `ls -a ${PROJECT}/schema/*.schema`
 do
-	echo "" >> /tmp/${DBNAME}.sql
-	cat $f >> /tmp/${DBNAME}.sql
+	echo "" >> ${TABLES_FILE}
+	cat $f >> ${TABLES_FILE}
 done
 
-mysql -u root -p < /tmp/${DBNAME}.sql
+mysql -u root -p mysql < ${SETUP_FILE}
+mysql -u root -p ${DBNAME} < ${TABLES_FILE}
 
-unlink /tmp/${DBNAME}.sql
+rm  ${SETUP_FILE}
+rm ${TABLES_FILE}
 
-${PERL} -pi -e "s!$GLOBALS['cfg']['db_main']['pass'] = ''!$GLOBALS['cfg']['db_main']['pass'] = '${PASSWORD}'!" ${SECRETS}
+# FIX ME
+# ${PERL} -pi -e "s/\$GLOBALS['cfg']['db_main']['pass'] = ''/\$GLOBALS['cfg']['db_main']['pass'] = '${PASSWORD}'/" ${SECRETS}

@@ -56,7 +56,7 @@ CREATE TABLE `AssertionsRedacted` (
   `assertion_id` BIGINT(20) unsigned NOT NULL,
   `redacted` int(10) unsigned NOT NULL,
   PRIMARY KEY (`assertion_id`),
-  KEY `by_date` (`redacted`),
+  KEY `by_date` (`redacted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `TwitterUsers`;
