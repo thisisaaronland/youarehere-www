@@ -174,6 +174,8 @@
 
 	$GLOBALS['cfg']['autoload_libs'] = array(
 		#'cache_memcache',
+		'cache',
+		'users',
 	);
 
 	# THINGS YOU SHOULD DEFINE IN YOUR secrets.php FILE WHICH IS NOT
