@@ -20,8 +20,8 @@
 		Options FollowSymLinks Indexes
 		# AllowOverride FileInfo Limit
 		AllowOverride All
-		Order allow,deny
-		allow from all
+
+		Require all granted
 	</Directory>
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log
@@ -45,7 +45,6 @@
 	SSLProtocol all
 	SSLCertificateFile /usr/local/ssl/certificate.crt
 	SSLCertificateKeyFile /usr/local/ssl/certificate.key
-	SSLCACertificateFile /usr/local/ssl/intermediate.crt
 
 	<Directory />
 		Options FollowSymLinks
@@ -56,8 +55,8 @@
 		Options FollowSymLinks Indexes
 		# AllowOverride FileInfo Limit
 		AllowOverride All
-		Order allow,deny
-		allow from all
+
+		Require all granted
 	</Directory>
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log
