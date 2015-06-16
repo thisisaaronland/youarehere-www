@@ -3,7 +3,7 @@
 
 	# Things you may want to change in a hurry
 
-	$GLOBALS['cfg']['site_name'] = 'flamework';
+	$GLOBALS['cfg']['site_name'] = 'you are here';
 	$GLOBALS['cfg']['environment'] = 'dev';
 
 	$GLOBALS['cfg']['site_disabled'] = 0;
@@ -189,3 +189,10 @@
 	# $GLOBALS['cfg']['db_poormans_slaves_pass'] = 'READ-FROM-SECRETS';
 
 	# the end
+
+	# Twitter stuff (defined in secrets.php) 
+	# $GLOBALS['cfg']['twitter_oauth_key'] = '';
+	# $GLOBALS['cfg']['twitter_oauth_secret'] = '';	
+	# $GLOBALS['cfg']['crypto_oauth_cookie_secret'] = '';
+
+	$GLOBALS['cfg']['twitter_api_perms'] = 'read';
