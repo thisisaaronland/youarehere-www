@@ -38,6 +38,8 @@ function youarehere_getlatlon_map(){
 
 function youarehere_getlatlon_set_viewport(geojson){
 
+    console.log(geojson);
+
 	var parse_geom = function(geom){
 
 		var _swlat = undefined;
@@ -113,20 +115,32 @@ function youarehere_getlatlon_set_viewport(geojson){
 	var nelat = undefined;
 	var nelon = undefined;
 
-	for (var i=0; i < count; i++){
+    	if (geojson['bbox']){
 
-		var feature = features[i];
-		var bbox = feature.bbox;
-		var geom = feature.geometry;
+	    bbox = geojson['bbox'];
+	    swlon = bbox[0];
+	    swlat = bbox[1];
+	    nelon = bbox[2];
+	    nelat = bbox[3];
+	}
 
-		if (! bbox){
-			bbox = parse_geom(geom);
+	else {
+    
+		for (var i=0; i < count; i++){
+
+			var feature = features[i];
+			var bbox = feature.bbox;
+			var geom = feature.geometry;
+
+			if (! bbox){
+				bbox = parse_geom(geom);
+			}
+
+			swlat = (swlat == undefined) ? bbox[1] : Math.min(swlat, bbox[1]);
+			swlon = (swlon == undefined) ? bbox[0] : Math.min(swlon, bbox[0]);
+			nelat = (nelat == undefined) ? bbox[3] : Math.max(nelat, bbox[3]);
+			nelon = (nelon == undefined) ? bbox[2] : Math.max(nelon, bbox[2]);
 		}
-
-		swlat = (swlat == undefined) ? bbox[1] : Math.min(swlat, bbox[1]);
-		swlon = (swlon == undefined) ? bbox[0] : Math.min(swlon, bbox[0]);
-		nelat = (nelat == undefined) ? bbox[3] : Math.max(nelat, bbox[3]);
-		nelon = (nelon == undefined) ? bbox[2] : Math.max(nelon, bbox[2]);
 	}
 
 	if ((swlat == nelat) && (swlon == nelon)){
@@ -136,7 +150,13 @@ function youarehere_getlatlon_set_viewport(geojson){
 	}
 
 	else {
+
+	    	// console.log(geojson['bbox']);
+		// console.log([swlat, swlon, nelat, nelon]);
+
 		var extent = [[swlat, swlon], [nelat, nelon]];
+		//console.log(extent);
+
 		map.fitBounds(extent);
 	}
 
