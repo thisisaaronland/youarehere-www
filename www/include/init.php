@@ -224,18 +224,21 @@
 
 	if ($_SERVER['SERVER_PORT']) {
 		$server_port = null;
+
 		if ($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
 			$server_port = $_SERVER['SERVER_PORT'];
 		}
 
+		$server_port = $_SERVER['SERVER_PORT'];
+
 		if ($server_port) {
-			$scheme = ($_SERVER['SERVER_PORT'] == 443) ? "https" : "http";
+			$scheme = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https' : 'http';
 			$server_url = "{$scheme}://{$_SERVER['SERVER_NAME']}:{$server_port}";
 		}
 	}
 	
 	if (! $server_url){
-		$scheme = ($_SERVER['SERVER_PORT'] == 443) ? "https" : "http";
+		$scheme = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https' : 'http';
 		$server_url = "{$scheme}://{$_SERVER['SERVER_NAME']}";
 	}
 
