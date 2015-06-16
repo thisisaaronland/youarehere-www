@@ -1,5 +1,5 @@
 *~
-www/include/config.php
+www/include/secrets*.php
 www/test.php
 sandbox
 ssl
