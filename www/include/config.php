@@ -192,9 +192,84 @@
 
 	# the end
 
-	# Twitter stuff (defined in secrets.php) 
+	# [start] twitter stuff
+
+	# These are defined in secrets.php
 	# $GLOBALS['cfg']['twitter_oauth_key'] = '';
 	# $GLOBALS['cfg']['twitter_oauth_secret'] = '';	
 	# $GLOBALS['cfg']['crypto_oauth_cookie_secret'] = '';
 
 	$GLOBALS['cfg']['twitter_api_perms'] = 'read';
+
+	# [end] twitter stuff
+
+	# [start] you-are-here stuff
+
+	# Reverse geocoder stuff
+
+	$GLOBALS['cfg']['enable_feature_reverse_geocoder'] = 1;
+
+	$GLOBALS['cfg']['reverse_geocoder_sources'] = array(
+		0 => 'unknown',	 # this shouldn't happen but better to trap it
+		1 => 'flickr shapefiles (2.0); gowanus heights (1.0); la lengua (1.0)',
+		2 => 'woedb (2.0)'
+	);
+
+	# The things doing the actual reverse geocoding. See also:
+	# https://github.com/straup/flickrgeocoder-java
+
+	# Port numbers can be whatever but I like to bind them to the
+	# corresponding WOE place type ID (20130223/straup)
+
+	$GLOBALS['cfg']['reverse_geocoder_clusters'] = array(
+
+		'neighbourhoods' => array(
+			'hosts' => array('http://localhost:9022'),
+			'fallback' => 'localities',
+			'zoom_levels' => range(15, 18),
+			'source' => 1,
+			'default' => 1,
+		),
+
+		'localities' => array(
+			'hosts' => array('http://localhost:9007'),
+			'fallback' => 'aerotropolii',
+			'zoom_levels' => range(12, 14),
+			'source' => 1,
+		),
+
+		'aerotropolii' => array(
+			'hosts' => array('http://localhost:9099'),
+			'fallback' => 'timezones',
+			'zoom_levels' => range(9, 11),
+			'source' => 2
+		),
+
+		'timezones' => array(
+			'hosts' => array('http://localhost:9031'),
+			'fallback' => null,
+			'zoom_levels' => range(1, 8),
+			'source' => 2
+		),
+	);
+
+	# Get latlon / geocoder stuff
+
+	$GLOBALS['cfg']['enable_feature_getlatlon'] = 0;
+	$GLOBALS['cfg']['enable_feature_geocoder'] = 1;
+
+	$GLOBALS['cfg']['twofishes_endpoint'] = 'http://localhost:8081';
+
+	# WOEDB static files
+
+	$GLOBALS['cfg']['enable_feature_woedb_static'] = 0;
+
+	$GLOBALS['cfg']['woedb_static_url_template'] = "http://example.com/woe/{W}/geojson/";
+	$GLOBALS['cfg']['woedb_static_path'] = '';
+
+	# Privacy stuff
+
+	$GLOBALS['cfg']['enable_feature_record_ip_address'] = 0;
+	$GLOBALS['cfg']['enable_feature_show_ip_address'] = 0;
+
+	# end of you-are-here stuff

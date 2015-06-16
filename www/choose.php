@@ -1,21 +1,19 @@
 <?php
 
 	include("include/init.php");
-	loadlib("twofishes");
-
 	features_ensure_enabled("geocoder");
+
+	loadlib("mapzen_pelias");
 
 	$q = get_str("q");
 
 	if (($q) && (preg_match("/^([\w\d\s]+)$/", $q, $m))){
 
-		$rsp = twofishes_geocode($m[1]);
+		$rsp = mapzen_pelias_geocode($m[1]);
 
 		if ($rsp['ok']){
-			$data = $rsp['data']['interpretations'];
-
-			$geojson = twofishes_interpretations_to_geojson($data);
-			$GLOBALS['smarty']->assign_by_ref("geojson", $geojson);
+			$data = $rsp['data'];
+			$GLOBALS['smarty']->assign_by_ref("geojson", $data);
 		}
 	}
 

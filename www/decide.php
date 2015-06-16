@@ -7,6 +7,7 @@
 	features_ensure_enabled("reverse_geocoder");
 
 	loadlib("reverse_geocode");
+	loadlib("assertions");
 	loadlib("geo_utils");
 
 	$lat = request_isset("lat");

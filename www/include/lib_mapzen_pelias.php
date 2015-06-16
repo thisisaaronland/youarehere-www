@@ -1,8 +1,23 @@
 <?php
 
+	# http://pelias.mapzen.com/
+
 	########################################################################
 
 	$GLOBALS['mapzen_pelias_host'] = 'https://pelias.mapzen.com/';
+
+	########################################################################
+
+	function mapzen_pelias_geocode($q){
+
+		$query = array('input' => $q);
+		$query = http_build_query($query);
+		
+		$url = "${GLOBALS['mapzen_pelias_host']}search?{$query}";
+		$rsp = http_get($url);
+
+		return mapzen_pelias_parse_rsp($rsp);
+	}
 
 	########################################################################
 
@@ -12,8 +27,14 @@
 		$query = http_build_query($query);
 		
 		$url = "${GLOBALS['mapzen_pelias_host']}reverse?{$query}";
-
 		$rsp = http_get($url);
+
+		return mapzen_pelias_parse_rsp($rsp);
+	}
+
+	########################################################################
+
+	function mapzen_pelias_parse_rsp($rsp){
 
 		if (! $rsp['ok']){
 			return $rsp;
