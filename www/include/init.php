@@ -111,8 +111,6 @@
 	#
 
 	# This is necessary to account for traffic being load-balanced by nginx. See also:
-	# https://github.com/cooperhewitt/turbo-happiness/blob/master/nginx/sites-available/collection.cooperhewitt.net
-	# (20130903/straup)
 
 	function remote_addr(){
 
