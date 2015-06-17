@@ -7,6 +7,8 @@
 		$GLOBALS['cfg']['api_server_scheme'] = ($GLOBALS['cfg']['api_require_ssl']) ? 'https' : 'http';
 		$GLOBALS['cfg']['api_server_name'] =  parse_url($GLOBALS['cfg']['abs_root_url'], 1);
 
+		$server_port = ($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) ? $_SERVER['SERVER_PORT'] : null;
+
 		# If I have an API specific subdomain/prefix then check to see if I am already
 		# running on that host; if not then update the 'api_server_name' config
 
@@ -17,7 +19,13 @@
 
 		# Build the 'api_abs_root_url' based on everything above
 
-		$GLOBALS['cfg']['api_abs_root_url'] = "{$GLOBALS['cfg']['api_server_scheme']}://{$GLOBALS['cfg']['api_server_name']}" . "/";
+		$GLOBALS['cfg']['api_abs_root_url'] = "{$GLOBALS['cfg']['api_server_scheme']}://{$GLOBALS['cfg']['api_server_name']}";
+
+		if ($server_port){
+			$GLOBALS['cfg']['api_abs_root_url'] .= ":{$server_port}";
+		}
+
+		$GLOBALS['cfg']['api_abs_root_url'] .= "/";
 
 		# If I have an API specific subdomain/prefix then check to see if I am already
 		# running on that host; if I am then update the 'site_abs_root_url' config and
@@ -25,13 +33,16 @@
 
 		if (($GLOBALS['cfg']['api_subdomain']) && (preg_match("/^{$GLOBALS['cfg']['api_subdomain']}/", $GLOBALS['cfg']['api_server_name']))){
 
-			# the old way (20150513/copea)
-			# $GLOBALS['cfg']['site_abs_root_url'] = str_replace("{$GLOBALS['cfg']['api_subdomain']}", "", $GLOBALS['cfg']['abs_root_url']);
-
 			$server_name = $GLOBALS['cfg']['api_server_name'];
 			$server_name = preg_replace("/^{$GLOBALS['cfg']['api_subdomain']}/", "", $server_name);
 
-			$GLOBALS['cfg']['site_abs_root_url' ] = "{$GLOBALS['cfg']['api_server_scheme']}://{$server_name}/";
+			$GLOBALS['cfg']['site_abs_root_url' ] = "{$GLOBALS['cfg']['api_server_scheme']}://{$server_name}";
+
+			if ($server_port){
+				$GLOBALS['cfg']['api_abs_root_url'] .= ":{$server_port}";
+			}
+
+			$GLOBALS['cfg']['api_abs_root_url'] .= "/";
 
 			# see this – we need to do this because we call $GLOBALS['cfg']['abs_root_url'] all
 			# over lib_whatever land (20150513/copea)
