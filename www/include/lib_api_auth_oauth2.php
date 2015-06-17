@@ -49,8 +49,12 @@
 			return array('ok' => 0, 'error' => 'Invalid access token', 'error_code' => 400);
 		}
 
+		if ($token_row['disabled']){
+			return array('ok' => 0, 'error' => 'Access token is disabled', 'error_code' => 502);
+		}
+
 		if (($token_row['expires']) && ($token_row['expires'] < time())){
-			return array('ok' => 0, 'error' => 'Invalid access token', 'error_code' => 400);
+			return array('ok' => 0, 'error' => 'Access token has expired', 'error_code' => 400);
 		}
 
 		# I find it singularly annoying that we have to do this here
@@ -67,15 +71,44 @@
 		if (isset($method['requires_perms'])){
 
 			if ($token_row['perms'] < $method['requires_perms']){
-				return array('ok' => 0, 'error' => 'Insufficient permissions', 'error_code' => 403);
+				$perms_map = api_oauth2_access_tokens_permissions_map();
+				$required = $perms_map[$method['requires_perms']];
+				return array('ok' => 0, 'error' => "Insufficient permissions, method requires a token with '{$required}' permissions", 'error_code' => 403);
 			}
 		}
 
-		$user = users_get_by_id($token_row['user_id']);
+		# Ensure user-iness - this may seem like a no-brainer until you think
+		# about how the site itself uses the API in the absence of a logged-in
+		# user (20130508/straup)
 
-		if ((! $user) || ($user['deleted'])){
-			return array('ok' => 0, 'error' => 'Not a valid user', 'error_code' => 400);
+		$ensure_user = 1;
+		$user = null;
+
+		if ((! $token_row['user_id']) && ($key_row) && (features_is_enabled("api_oauth2_tokens_null_users"))){
+
+			$key_role_id = $key_row['role_id'];
+			$roles_map = api_keys_roles_map('string keys');
+
+			$valid_roles = $GLOBALS['cfg']['api_oauth2_tokens_null_users_allowed_roles'];
+			$valid_roles_ids = array();
+
+			foreach ($valid_roles as $role){
+				$valid_roles_ids[] = $roles_map[$role];
+			}
+
+			$ensure_user = (($key_role_id) && (in_array($key_role_id, $valid_roles_ids))) ? 0 : 1;
 		}
+
+		if ($ensure_user){
+
+			$user = users_get_by_id($token_row['user_id']);
+
+			if ((! $user) || ($user['deleted'])){
+				return array('ok' => 0, 'error' => 'Not a valid user', 'error_code' => 400);
+			}
+		}
+
+		#
 
 		return array(
 			'ok' => 1,

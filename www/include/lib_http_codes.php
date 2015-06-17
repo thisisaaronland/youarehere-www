@@ -1,7 +1,6 @@
 <?php
 
 	# http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
-	# https://www.flickr.com/photos/girliemac/sets/72157628409467125
 
 	########################################################################
 

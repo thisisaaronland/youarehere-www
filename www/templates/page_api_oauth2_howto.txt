@@ -1,6 +1,8 @@
 {capture assign="page_title"}How to | OAuth2 | API{/capture}
 {include file="inc_head.txt"}
 
+<div class="container">
+
 {include file="inc_api_header.txt" title="OAuth2 How to"}
 
 <div class="api-sect">
@@ -16,7 +18,7 @@
 
 	<li><strong>There are users.</strong> Users have accounts on services.{if $cfg.user.id} For example, you are currently logged in to <a href="{$cfg.abs_root_url}" class="api-site-name">{$cfg.site_name|escape}</a> with your <a href="{$cfg.abs_root_url}account/}">{$cfg.user.username|escape}</a> account.{/if}</li>
 
-	<li><strong>Services have application programming interfaces (APIs).</strong> APIs allow computer programs and robots to talk to a service <a href="{$cfg.abs_root_url}api/methods/">in computer-speak</a>.</li>
+	<li><strong>Services have application programming interfaces (APIs).</strong> APIs allow computer programs and robots to talk to the service <a href="{$cfg.abs_root_url}api/methods/">in computer-speak</a>.</li>
 
 	<li><strong>There are applications.</strong> Applications are <em>other</em> programs that use a service's APIs to do stuff.{if 0}Sometimes an application is another service with its own API.{/if}</li> 
 
@@ -149,6 +151,8 @@
     <!-- <li>A user may choose to define different permissions for an access token than those requested by an application. Permissions information is returned with an access token so applications should react accordingly.</li> -->
     <li>A user may choose to define an expiry date for an access token. This information is returned with an access token as a Unix timestamp. A value of <code>0</code> means that the token has no defined expiry date. <em>Returning expiry dates for access tokens is not part of the offical OAuth2 specification.</em></li>
 </ol>
+
+</div>
 
 </div>
 

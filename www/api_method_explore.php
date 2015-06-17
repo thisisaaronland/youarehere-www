@@ -9,6 +9,7 @@
 	features_ensure_enabled(array(
 		"api",
 		"api_documentation",
+		"api_explorer",
 	));
 
 	$method = get_str("method");
@@ -33,14 +34,18 @@
 		$details['example_response'] = $rsp['example'];
 	}
 
-	# TO DO: convert markdown in $details
-
 	$GLOBALS['smarty']->assign("method", $method);
-	$GLOBALS['smarty']->assign("response_formats", $GLOBALS['cfg']['api']['formats']);
-	$GLOBALS['smarty']->assign("default_format", $GLOBALS['cfg']['api']['default_format']);
-
 	$GLOBALS['smarty']->assign_by_ref("details", $details);
 
-	$GLOBALS['smarty']->display("page_api_method.txt");
+	$logged_out_token = api_oauth2_access_tokens_fetch_api_explorer_token();
+	$GLOBALS['smarty']->assign_by_ref("logged_out_token", $logged_out_token);
+
+	if ($user = $GLOBALS['cfg']['user']){
+		$read_only_token = api_oauth2_access_tokens_fetch_api_explorer_token($user);
+		$GLOBALS['smarty']->assign_by_ref("read_only_token", $read_only_token);
+	}
+
+	$GLOBALS['smarty']->display("page_api_method_explore.txt");
 	exit();
+
 ?>
