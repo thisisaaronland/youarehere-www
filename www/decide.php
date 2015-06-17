@@ -6,6 +6,8 @@
 
 	features_ensure_enabled("reverse_geocoder");
 
+	loadlib("mapzen_pelias");
+
 	loadlib("reverse_geocode");
 	loadlib("assertions");
 	loadlib("geo_utils");
@@ -50,6 +52,14 @@
 		$GLOBALS['smarty']->assign("longitude", $lon);
 
 		# Okay, what's around here
+
+		/*
+
+		$more = array('layers' => 'admin');
+		$rsp = mapzen_pelias_reverse_geocode($lat, $lon, $more);
+		dumper($rsp['data']);
+
+		*/
 
 		$reversegeo_rsp = reverse_geocode($lat, $lon, $filter);
 

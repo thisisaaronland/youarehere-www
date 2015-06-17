@@ -21,12 +21,27 @@
 
 	########################################################################
 
-	function mapzen_pelias_reverse_geocode($lat, $lon){
+	function mapzen_pelias_reverse_geocode($lat, $lon, $more=array()){
 
 		$query = array('lat' => $lat, 'lon' => $lon);
+
+		$query = array_merge($more, $query);
 		$query = http_build_query($query);
 		
 		$url = "${GLOBALS['mapzen_pelias_host']}reverse?{$query}";
+		$rsp = http_get($url);
+
+		return mapzen_pelias_parse_rsp($rsp);
+	}
+
+	########################################################################
+
+	function mapzen_pelias_get_info($id){
+
+		$query = array('id' => $id);
+		$query = http_build_query($query);
+		
+		$url = "${GLOBALS['mapzen_pelias_host']}doc?{$query}";
 		$rsp = http_get($url);
 
 		return mapzen_pelias_parse_rsp($rsp);
