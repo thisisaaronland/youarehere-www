@@ -65,47 +65,6 @@
     <div class="navbar navbar-static-top" style="text-align:center;font-weight:700;margin-top:1em;background-color:">{$cfg.display_message_text|escape}</div>
     {/if}
 
-    <div class="navbar navbar-static-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="{$cfg.abs_root_url}">{$cfg.site_name|escape}</a>
-          <div class="nav-collapse">
-            <ul class="nav">
-              {if $cfg.user and "geocoder"|features_is_enabled}<li{if $nav_tab == 'recent'} class="active"{/if}><a href="{$cfg.abs_root_url}choose/">Choose</a></li>{/if}
-              {if $cfg.user and "reverse_geocoder"|features_is_enabled}<li{if $nav_tab == 'recent'} class="active"{/if}><a href="{$cfg.abs_root_url}decide/">Decide</a></li>{/if}
-              <li><a href="{$cfg.abs_root_url}assertions/">Recent</a></li>
-              {if $cfg.user}<li><a href="{$cfg.abs_root_url}assertions/me/">Mine</a></li>{/if}
-              {if "api"|features_is_enabled}<li{if $nav_tab == 'about'} class="active"{/if}><a href="{$cfg.abs_root_url}api/">API</a></li>{/if}
-              <li><a href="{$cfg.abs_root_url}about/">About</a></li>
-            </ul>
+    {include file="inc_head_navi.txt"}
 
-            <ul class="nav pull-right">
-{if $cfg.user.id}
-            <li class="dropdown{if $nav_tab == 'account'} active{/if}">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hello {$cfg.user.username|escape} <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="{$cfg.abs_root_url}account">Account</a></li>
-                <li><a href="{$cfg.abs_root_url}signout">Logout</a></li>
-              </ul>
-            </li>
-{else}
-	{if $cfg.enable_feature_signin}
-		{if $cfg.enable_feature_signup}
-			{if 0}<li{if $nav_tab == 'signup'} class="active"{/if}><a href="{$cfg.abs_root_url}signup">Create New Account</a></li>{/if}
-		{/if}
-			<li{if $nav_tab == 'signin'} class="active"{/if}><a href="{$cfg.abs_root_url}signin">Sign In</a></li>
-	{/if}
-{/if}
-          </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
-    <div id="body">
-    <div class="main">
+    <div class="container">

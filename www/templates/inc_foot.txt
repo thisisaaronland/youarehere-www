@@ -1,14 +1,12 @@
-
-    </div>
+    </div> {* .container opened in inc_head.txt *}	
 	
     <div class="container">
-      <hr>
 
       <footer>
         <p>this is a thing by <a href="http://www.mapzen.com/" target="_mapzen">mapzen</a> | <a href="{$cfg.abs_root_url}colophon/">colophon</a></p>
       </footer>
 
-    </div> <!-- /container -->
+    </div>
 
   </body>
 </html>
