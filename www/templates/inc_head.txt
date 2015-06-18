@@ -46,6 +46,10 @@
     <script src="{$cfg.abs_root_url}javascript/youarehere.map.js"></script>
     <script src="{$cfg.abs_root_url}javascript/youarehere.woe.js"></script>
     {/if}
+
+    <script src="{$cfg.abs_root_url}javascript/htmlspecialchars.js"></script>
+    <script src="{$cfg.abs_root_url}javascript/flamework.api.js"></script>
+
     <script type="text/javascript">
 	var _cfg = {literal}{{/literal}
 		'abs_root_url': '{$cfg.abs_root_url}',
@@ -55,7 +59,7 @@
     {if $extra_head}{$extra_head}{/if}
   </head>
 
-  <body>
+  <body data-abs-root-url="{$cfg.abs_root_url}" data-api-endpoint="{$cfg.api_abs_root_url}{$cfg.api_endpoint}" data-api-site-token="{$site_token|@escape}" class="header-collapse">
 
     {if $cfg.display_message}
     <div class="navbar navbar-static-top" style="text-align:center;font-weight:700;margin-top:1em;background-color:">{$cfg.display_message_text|escape}</div>
