@@ -385,6 +385,7 @@
 
 	$GLOBALS['cfg']['api_method_definitions'] = array(
 		'methods',
+		'methods_mapzen',
 	);
 
 ?>
