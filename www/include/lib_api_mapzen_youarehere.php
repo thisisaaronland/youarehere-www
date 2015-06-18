@@ -17,7 +17,8 @@
 			api_output_error(400, "Invalid query string");
 		}
 
-		$rsp = mapzen_pelias_geocode($q);
+		$more = array('coarse' => 1);
+		$rsp = mapzen_pelias_geocode($q, $more);
 
 		if (! $rsp['ok']){
 			api_output_error(500, $rsp['error']);

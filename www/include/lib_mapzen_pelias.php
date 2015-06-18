@@ -8,12 +8,20 @@
 
 	########################################################################
 
-	function mapzen_pelias_geocode($q){
+	function mapzen_pelias_geocode($q, $more=array()){
+
+		$defaults = array(
+			  'coarse' => 0,
+		);
+
+		$more = array_merge($defaults, $more);
+
+		$method = ($more['coarse']) ? 'search/coarse/' : 'search/';
 
 		$query = array('input' => $q);
 		$query = http_build_query($query);
 		
-		$url = "${GLOBALS['mapzen_pelias_host']}search?{$query}";
+		$url = "${GLOBALS['mapzen_pelias_host']}{$method}?{$query}";
 		$rsp = http_get($url);
 
 		return mapzen_pelias_parse_rsp($rsp);
